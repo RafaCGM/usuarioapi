@@ -1,17 +1,16 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import ProdutoSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics, permissions
+from .serializers import UsuarioSerializer, RegisterSerializer
+from .models import Usuario
 
-class ProdutoCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+class RegisterView(generics.CreateAPIView):
+    queryset = Usuario.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
 
-    def post(self, request):
-        serializer = ProdutoSerializer(data=request.data)
+class UserListView(generics.ListAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
