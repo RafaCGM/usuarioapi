@@ -32,7 +32,7 @@ SIMPLE_JWT = {
 }
 
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', cast=bool)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,7 +47,7 @@ SECRET_KEY = 'django-insecure-a1le_&*pj&8!jropn&5-gz#e=32b8gaob63-8*+4%fjfsuzz$v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -97,8 +97,8 @@ WSGI_APPLICATION = 'usuarioapi.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('postgresql://api_usuarios_db_user:J9Uh43bKBZhFaDk3af8p0h9j53kuGAWv@dpg-d5l778h4tr6s738gvhpg-a.oregon-postgres.render.com/api_usuarios_db')
+    'default': dj_database_url.parse(
+        config('DATABASE_URL')
     )
 }
 
@@ -137,6 +137,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
